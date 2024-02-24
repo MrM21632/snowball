@@ -17,13 +17,13 @@ func GetenvStr(key string) (string, error) {
 	return result, nil
 }
 
-func GetenvInteger(key string) (int, error) {
+func GetenvInteger(key string) (uint64, error) {
 	str, err := GetenvStr(key)
 	if err != nil {
 		return 0, err
 	}
 
-	result, err := strconv.Atoi(str)
+	result, err := strconv.ParseUint(str, 10, 64)
 	if err != nil {
 		return 0, err
 	}
