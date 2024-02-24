@@ -44,3 +44,33 @@ func GetenvBoolean(key string) (bool, error) {
 
 	return result, nil
 }
+
+// The epoch used by Snowball is entirely configurable via the SNOWBALL_EPOCH_MS system environment
+// variable. This makes using Snowball in containerized deployments straightforward - just supply
+// the expected environment variable and Snowball will take it from there.
+//
+// If the epoch is not provided, Snowball defaults to the epoch used by the original Snowflake algorithm.
+func GetEpoch() uint64 {
+	var epoch uint64
+	var err error
+	if epoch, err = GetenvInteger("SNOWBALL_EPOCH_MS"); err != nil {
+		return 1288834974657
+	}
+
+	return epoch
+}
+
+// The server ID used by Snowball is entirely configurable via the SNOWBALL_NODE_ID system environment
+// variable. This makes using Snowball in containerized deployments straightforward - just supply the
+// expected environment variable and Snowball will take it from there.
+//
+// If the ID is not provided, Snowball defaults to 0.
+func GetServerId() uint64 {
+	var serverId uint64
+	var err error
+	if serverId, err = GetenvInteger("SNOWBALL_NODE_ID"); err != nil {
+		return 0
+	}
+
+	return serverId
+}
