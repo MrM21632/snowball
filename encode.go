@@ -5,8 +5,12 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
+	"math"
 	"strconv"
+	"strings"
 )
+
+const base62Digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 // Formats the Snowball ID into a binary string.
 func (id SnowballID) ToBinary() string {
@@ -63,4 +67,32 @@ func FromBase64(sid string) (SnowballID, error) {
 	}
 
 	return SnowballID(binary.NativeEndian.Uint64(bytes)), nil
+}
+
+// Formats the Snowball ID into a base62 encoded string.
+func (id SnowballID) ToBase62() string {
+	result := ""
+	for id > 0 {
+		remainder := id % 62
+		result = string(base62Digits[remainder]) + result
+		id /= 62
+	}
+
+	return result
+}
+
+// Converts a base62 string into a Snowball ID.
+func FromBase62(sid string) (SnowballID, error) {
+	var result uint64
+	for index, char := range sid {
+		pow := len(sid) - (index + 1)
+		pos := strings.IndexRune(base62Digits, char)
+		if pos == -1 {
+			return 0, errors.New("decode failed: invalid base62 string")
+		}
+
+		result += uint64(pos) * uint64(math.Pow(62, float64(pow)))
+	}
+
+	return SnowballID(result), nil
 }

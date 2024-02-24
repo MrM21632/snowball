@@ -36,11 +36,42 @@ is very performant in a distributed environment. Some estimates for this perform
 
 ### Installation
 
-TBD.
+Installation is as simple as running:
+```bash
+go get github.com/MrM21632/snowball
+```
+
+And importing the module into your code is also simple:
+```go
+import (
+	"github.com/MrM21632/snowball"
+)
+```
 
 ### Usage
 
-TBD.
+First, ensure `SNOWBALL_EPOCH_MS` and `SNOWBALL_NODE_ID` are defined in the system environment variables. From there,
+utilizing the module is very straightforward. Import the package normally, initialize a new server node using `InitNode()`,
+then call `GenerateID()` to create and retrieve a new Snowball ID.
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/MrM21632/snowball"
+)
+
+func main() {
+    node, err := snowball.InitNode()
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    id := node.GenerateID()
+    // ... do what you need with the ID afterwards.
+}
+```
 
 ### Testing
 
