@@ -1,0 +1,66 @@
+package snowball
+
+import (
+	"encoding/base32"
+	"encoding/base64"
+	"encoding/binary"
+	"errors"
+	"strconv"
+)
+
+// Formats the Snowball ID into a binary string.
+func (id SnowballID) ToBinary() string {
+	return strconv.FormatUint(uint64(id), 2)
+}
+
+// Converts a binary string into a Snowball ID.
+func FromBinary(sid string) (SnowballID, error) {
+	id, err := strconv.ParseUint(sid, 2, 64)
+	return SnowballID(id), err
+}
+
+// Formats the Snowball ID into a hexidecimal string.
+func (id SnowballID) ToHex() string {
+	return strconv.FormatUint(uint64(id), 16)
+}
+
+// Converts a hexidecimal string into a Snowball ID.
+func FromHex(sid string) (SnowballID, error) {
+	id, err := strconv.ParseUint(sid, 16, 64)
+	return SnowballID(id), err
+}
+
+// Formats the Snowball ID into a base32 encoded string, using the standard encoding for Base32.
+func (id SnowballID) ToBase32() string {
+	b := make([]byte, 8)
+	binary.NativeEndian.PutUint64(b, uint64(id))
+	return base32.StdEncoding.EncodeToString(b)
+}
+
+// Converts a base32 string into a Snowball ID. Assumes the string is formatted using standard Base32.
+func FromBase32(sid string) (SnowballID, error) {
+	bytes, err := base32.StdEncoding.DecodeString(sid)
+	if err != nil {
+		return 0, errors.New("decode failed: invalid base32 string (did you use the right encoding?)")
+	}
+
+	return SnowballID(binary.NativeEndian.Uint64(bytes)), nil
+}
+
+// Formats the Snowball ID into a base64 encoded string, using the URL encoding for Base64.
+func (id SnowballID) ToBase64() string {
+	b := make([]byte, 8)
+	binary.NativeEndian.PutUint64(b, uint64(id))
+	return base64.URLEncoding.EncodeToString(b)
+}
+
+// Converts a base64 string into a Snowball ID. Assumes the string is formatted using the URL variant
+// of Base64.
+func FromBase64(sid string) (SnowballID, error) {
+	bytes, err := base64.URLEncoding.DecodeString(sid)
+	if err != nil {
+		return 0, errors.New("decode failed: invalid base64 string (did you use the right encoding?)")
+	}
+
+	return SnowballID(binary.NativeEndian.Uint64(bytes)), nil
+}

@@ -8,7 +8,7 @@ made configurable for, say, production deployments to a cluster/data center.
 This Golang module provides the following functionality:
 - A basic UID generator using the "Snowball" algorithm
 - Methods to parse Snowball IDs
-- Methods to encode/decode Snowball IDs in binary, Base16, Base32, Base62, and Base64
+- Methods to encode/decode Snowball IDs in binary, Base16 (hex), Base32, Base62, and Base64
 
 ## Snowball ID Structure
 
