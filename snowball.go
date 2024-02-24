@@ -31,6 +31,9 @@ var (
 	EpochTime time.Time = time.Unix(int64(Epoch)/1000, (int64(Epoch)%1000)*1000000)
 )
 
+// Basic type to represent Snowball IDs, e.g., for encoding methods
+type SnowballID uint64
+
 // Contains basic information used to generate Snowball IDs
 type SnowballNode struct {
 	mutex sync.Mutex
@@ -55,13 +58,15 @@ func InitNode() (*SnowballNode, error) {
 		)
 	}
 
+	// Setting the epoch like this ensures we have a monotonic clock (i.e., NTP and Daylight Saving Time won't
+	// impact time computation)
 	var now = time.Now()
 	result.epoch = now.Add(EpochTime.Sub(now))
 	return &result, nil
 }
 
 // Creates and returns a new, unique Snowball ID.
-func (node *SnowballNode) GenerateID() uint64 {
+func (node *SnowballNode) GenerateID() SnowballID {
 	node.mutex.Lock()
 	defer node.mutex.Unlock()
 
@@ -78,6 +83,8 @@ func (node *SnowballNode) GenerateID() uint64 {
 	}
 
 	node.currTime = uint64(now)
-	result := (uint64(now) << uint64(timestampShift)) | (node.serverId << uint64(serverIdShift)) | node.currSeq
+	result := SnowballID(
+		(uint64(now) << uint64(timestampShift)) | (node.serverId << uint64(serverIdShift)) | node.currSeq,
+	)
 	return result
 }
