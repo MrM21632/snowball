@@ -25,12 +25,6 @@ const (
 	timestampShift = ServerIdLen + SequenceLen
 )
 
-var (
-	ServerId  uint64    = GetServerId()
-	Epoch     uint64    = GetEpoch()
-	EpochTime time.Time = time.Unix(int64(Epoch)/1000, (int64(Epoch)%1000)*1000000)
-)
-
 // Basic type to represent Snowball IDs, e.g., for encoding methods
 type SnowballID uint64
 
@@ -49,6 +43,10 @@ func InitNode() (*SnowballNode, error) {
 	if SequenceLen+ServerIdLen > 22 {
 		return nil, errors.New("initialization failed: sequence and server ID length is invalid")
 	}
+
+	var ServerId uint64 = GetServerId()
+	var Epoch uint64 = GetEpoch()
+	var EpochTime time.Time = time.Unix(int64(Epoch)/1000, (int64(Epoch)%1000)*1000000)
 
 	result := SnowballNode{}
 	result.serverId = ServerId
