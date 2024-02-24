@@ -2,6 +2,7 @@ package snowball
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -54,6 +55,7 @@ func GetEpoch() uint64 {
 	var epoch uint64
 	var err error
 	if epoch, err = GetenvInteger("SNOWBALL_EPOCH_MS"); err != nil {
+		fmt.Println("get epoch failed: envvar SNOWBALL_EPOCH_MS not found, using default")
 		return 1288834974657
 	}
 
@@ -69,6 +71,7 @@ func GetServerId() uint64 {
 	var serverId uint64
 	var err error
 	if serverId, err = GetenvInteger("SNOWBALL_NODE_ID"); err != nil {
+		fmt.Println("get epoch failed: envvar SNOWBALL_NODE_ID not found, using default")
 		return 0
 	}
 
