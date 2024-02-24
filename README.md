@@ -75,4 +75,12 @@ func main() {
 
 ### Testing
 
-TBD.
+Executing unit tests:
+```bash
+go test -v ./...
+```
+
+Executing benchmarks:
+```bash
+go test -bench=.
+```
