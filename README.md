@@ -8,7 +8,7 @@ made configurable for, say, production deployments to a cluster/data center.
 This Golang module provides the following functionality:
 - A basic UID generator using the "Snowball" algorithm
 - Methods to parse Snowball IDs
-- Methods to encode/decode Snowball IDs in binary, Base32, Base62, and Base64
+- Methods to encode/decode Snowball IDs in binary, Base16, Base32, Base62, and Base64
 
 ## Snowball ID Structure
 
@@ -21,7 +21,7 @@ Snowball's ID format is as follows:
 - The ID fits fully within an unsigned 64-bit integer (uint64)
 - 42 bits, including the "sign" bit, are used to store a millisecond-precision timestamp, based on a custom epoch provided
   as an environment variable
-- 11 bits are used to store a server ID, doubling the number of valid server IDs in a Snowflake ID (1024 vs 2048)
+- 11 bits are used to store a server ID, doubling the number of valid server IDs in a Snowflake ID (2048 vs 1024)
 - 11 bits are used to store a sequence number, halving the possible number vs. Snowflake (2048 vs 4096)
 
 This format carries some downsides, namely being able to generate fewer unique IDs in a given millisecond, but nonetheless
