@@ -78,8 +78,6 @@ func (node *SnowballNode) GenerateID() uint64 {
 	}
 
 	node.currTime = uint64(now)
-	result := uint64(
-		now<<int64(timestampShift) | (int64(node.serverId) << int64(serverIdShift)) | int64(node.currSeq),
-	)
+	result := (uint64(now) << uint64(timestampShift)) | (node.serverId << uint64(serverIdShift)) | node.currSeq
 	return result
 }
