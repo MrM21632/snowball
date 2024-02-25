@@ -50,9 +50,18 @@ import (
 
 ### Usage
 
-First, ensure `SNOWBALL_EPOCH_MS` and `SNOWBALL_NODE_ID` are defined in the system environment variables. From there,
-utilizing the module is very straightforward. Import the package normally, initialize a new server node using `InitNode()`,
-then call `GenerateID()` to create and retrieve a new Snowball ID.
+Snowball handles Server IDs in one of two ways, depending on how you configure it:
+1. Developers can pre-assign IDs to each server the service will run on. If so, you will want to define the variable
+   `SNOWBALL_NODE_ID` in your system environment.
+2. (Development ongoing) Snowball can also derive server IDs from the IP address of the machine, pod, container, etc. that
+   it's running on. In this case, you'll need to define the variable `SERVER_IP_ADDRESS` with the machine IP address in
+   your system environment.
+
+In addition, you'll also need to provide the variable `SNOWBALL_EPOCH_MS` in your system environment to define what epoch
+Snowball uses. By default, if none is provided, it will use the same epoch Twitter uses for Snowflake - 1288834974657 (i.e.,
+Thursday, November 4, 2010 01:42:54 UTC).
+
+From here, simply import the package as normal, then initialize the server, and you're ready to start generating IDs!
 ```go
 package main
 
@@ -62,7 +71,8 @@ import (
 )
 
 func main() {
-    node, err := snowball.InitNode()
+    // Set to false if you're providing pre-assigned IDs to servers
+    node, err := snowball.InitNode(true)
     if err != nil {
         fmt.Println(err)
         return
@@ -72,6 +82,16 @@ func main() {
     // ... do what you need with the ID afterwards.
 }
 ```
+
+Snowball also comes with a default executable service, leveraging [Gin](https://pkg.go.dev/github.com/gin-gonic/gin) for
+HTTP requests and [Prometheus](https://pkg.go.dev/github.com/prometheus/client_golang/prometheus) for metrics collection.
+
+In addition, there are also custom Docker images available for both amd64 and arm64 platforms. Simply run
+```bash
+docker pull mrm21632/snowball:v1.2.0  # or whatever the latest version happens to be
+```
+
+and deploy to your heart's content.
 
 ### Testing
 
