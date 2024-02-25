@@ -3,6 +3,7 @@ package snowball
 import (
 	"errors"
 	"fmt"
+	"net"
 	"os"
 	"strconv"
 )
@@ -76,4 +77,18 @@ func GetServerId() uint64 {
 	}
 
 	return serverId
+}
+
+// Alternatively, the server ID used by Snowball can be based on the machine or pod IP address, via the
+// SERVER_IP_ADDRESS system environment variable. This can be leveraged for containerized deployments that
+// are expected to scale, and providing multiple unique server IDs is more difficult.
+func GetServerIdFromIPAddress() uint64 {
+	ipStr, err := GetenvStr("SERVER_IP_ADDRESS")
+	if err != nil || len(ipStr) == 0 {
+		fmt.Println("get server id failed: env var SERVER_IP_ADDRESS not found or undefined, using default")
+		return 0
+	}
+
+	ip := net.ParseIP(ipStr)
+	return uint64(ip[3])
 }

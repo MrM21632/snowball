@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	node, err := snowball.InitNode()
+	// Change to false if you want to provide pre-assigned IDs for servers
+	node, err := snowball.InitNode(true)
 	if err != nil {
 		fmt.Printf("Encountered error while initializing node: %s", err)
 		return

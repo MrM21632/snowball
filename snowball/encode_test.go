@@ -437,7 +437,7 @@ func BenchmarkToBinary(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 
 	b.ReportAllocs()
@@ -451,7 +451,7 @@ func BenchmarkFromBinary(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 	sid := id.ToBinary()
 
@@ -466,7 +466,7 @@ func BenchmarkToHex(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 
 	b.ReportAllocs()
@@ -480,7 +480,7 @@ func BenchmarkFromHex(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 	sid := id.ToHex()
 	b.ReportAllocs()
@@ -494,7 +494,7 @@ func BenchmarkToBase32(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 
 	b.ReportAllocs()
@@ -508,7 +508,7 @@ func BenchmarkFromBase32(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 	sid := id.ToBase32()
 
@@ -523,7 +523,7 @@ func BenchmarkToBase62(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 
 	b.ReportAllocs()
@@ -537,7 +537,7 @@ func BenchmarkFromBase62(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 	sid := id.ToBase62()
 
@@ -552,7 +552,7 @@ func BenchmarkToBase64(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 
 	b.ReportAllocs()
@@ -566,7 +566,7 @@ func BenchmarkFromBase64(b *testing.B) {
 	b.Setenv("SNOWBALL_EPOCH_MS", "1704121810000")
 	b.Setenv("SNOWBALL_NODE_ID", "32")
 
-	node, _ := InitNode()
+	node, _ := InitNode(false)
 	id := node.GenerateID()
 	sid := id.ToBase64()
 

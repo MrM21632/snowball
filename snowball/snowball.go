@@ -39,12 +39,17 @@ type SnowballNode struct {
 }
 
 // Creates and returns a new node object for generating Snowball IDs
-func InitNode() (*SnowballNode, error) {
+func InitNode(useIp bool) (*SnowballNode, error) {
 	if SequenceLen+ServerIdLen > 22 {
 		return nil, errors.New("initialization failed: sequence and server ID length is invalid")
 	}
 
-	var ServerId uint64 = GetServerId()
+	var ServerId uint64
+	if useIp {
+		ServerId = GetServerIdFromIPAddress()
+	} else {
+		ServerId = GetServerId()
+	}
 	var Epoch uint64 = GetEpoch()
 	var EpochTime time.Time = time.Unix(int64(Epoch)/1000, (int64(Epoch)%1000)*1000000)
 
